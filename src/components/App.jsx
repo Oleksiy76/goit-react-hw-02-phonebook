@@ -1,4 +1,5 @@
 import React from 'react';
+import { nanoid } from 'nanoid';
 import ContactForm from './ContactForm/ContactForm';
 import Filter from './Filter/Filter';
 import ContactList from './ContactList/ContactList';
@@ -19,7 +20,14 @@ class App extends React.Component {
       return;
     }
 
-    this.setState({ contacts: [...this.state.contacts, data] });
+    const newContacts = {
+      id: nanoid(),
+      ...data,
+    };
+
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, newContacts],
+    }));
   };
 
   changeFilter = event => {
@@ -28,7 +36,6 @@ class App extends React.Component {
 
   getFilterContacts = () => {
     const { contacts, filter } = this.state;
-
     const normalizedFilter = filter.toLowerCase();
 
     return contacts.filter(({ name }) =>
@@ -37,9 +44,11 @@ class App extends React.Component {
   };
 
   onRemoveContact = contactId => {
-    this.setState({
-      contacts: this.state.contacts.filter(contact => contact.id !== contactId),
-    });
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts].filter(
+        contact => contact.id !== contactId
+      ),
+    }));
   };
 
   render() {

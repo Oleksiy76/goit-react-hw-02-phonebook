@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import css from './ContactForm.module.css';
-import { nanoid } from 'nanoid';
 
 const INITIAL_STATE = {
   name: '',
@@ -22,14 +21,7 @@ class ContactForm extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const contactData = {
-      id: nanoid(),
-      name: this.state.name,
-      number: this.state.number,
-    };
-
-    this.props.addContactData(contactData);
-    this.setState({ ...INITIAL_STATE });
+    this.props.addContactData(this.state);
 
     this.reset();
   };
